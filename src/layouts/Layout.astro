@@ -5,24 +5,53 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
     title: string;
+    description?: string;
+    image?: string;
+    type?: "website" | "book" | "article";
 }
 
-const { title } = Astro.props;
+const {
+    title,
+    description = "Marco Swift and the Mirror of Souls - A magical mirror, a terrible enemy, and one boy unravelling the secret behind his legacy.",
+    image = "/marcoswift.png",
+    type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL(image, Astro.url);
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="description"
-            content="Marco Swift and the Mirror of Souls - A magical mirror, a terrible enemy, and one boy unravelling the secret behind his legacy."
-        />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
 
-        <!-- Google Fonts: Playfair Display, Alegreya & Jim Nightshade -->
+        <!-- Canonical URL -->
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Primary Meta Tags -->
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={socialImageURL} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={socialImageURL} />
+
+        <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -30,7 +59,40 @@ const { title } = Astro.props;
             rel="stylesheet"
         />
 
-        <title>{title}</title>
+        <!-- Schema.org JSON-LD -->
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "WebSite",
+                        url: Astro.site,
+                        name: "Marco Swift and the Mirror of Souls",
+                        description:
+                            "The official website for the fantasy novel Marco Swift and the Mirror of Souls by D. E. Cunningham.",
+                        publisher: {
+                            "@type": "Person",
+                            name: "D. E. Cunningham",
+                        },
+                    },
+                    {
+                        "@type": "Book",
+                        name: "Marco Swift and the Mirror of Souls",
+                        author: {
+                            "@type": "Person",
+                            name: "D. E. Cunningham",
+                        },
+                        description:
+                            "A fantastical and imaginative middle-grade fantasy novel that touches on universal themes of forgiveness, truth, and love.",
+                        image: socialImageURL,
+                        url: "https://marcoswift.com/book",
+                        genre: "Fantasy",
+                        audience: "Middle Grade",
+                    },
+                ],
+            })}
+        />
     </head>
     <body class="bg-brand-bg text-brand-text min-h-screen flex flex-col">
         <Navbar />
