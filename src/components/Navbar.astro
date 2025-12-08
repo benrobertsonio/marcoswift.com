@@ -39,7 +39,7 @@ const links = [
                     links.map((link) => (
                         <a
                             href={link.href}
-                            class={`text-[18px] font-medium font-body text-black hover:text-white transition-colors ${link.name === "Home" ? "text-white" : ""}`}
+                            class={`text-[18px] font-medium font-body text-black hover:!text-white transition-colors ${link.name === "Home" ? "text-white" : ""}`}
                         >
                             {link.name}
                         </a>
@@ -53,7 +53,7 @@ const links = [
             >
                 <a
                     href="#"
-                    class="text-black hover:text-white transition-colors"
+                    class="text-black hover:!text-white transition-colors"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ const links = [
             <div class="md:hidden ml-4">
                 <button
                     type="button"
-                    class="text-black hover:text-white p-2 transition-colors"
+                    class="text-black hover:!text-white p-2 transition-colors"
                 >
                     <span class="sr-only">Open menu</span>
                     <svg
