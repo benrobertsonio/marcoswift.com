@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@theme {
+    --font-display: "Playfair Display", serif;
+    --font-hero: "Jim Nightshade", cursive;
+    --font-body: "Alegreya", serif;
+
+    --color-brand-primary: #f89b52;
+    /* The orange/peach color from OceanWP config */
+    --color-brand-text: #000000;
+    --color-brand-muted: #818a91;
+    /* From OceanWP social icons */
+    --color-brand-bg: #ffffff;
+    --color-brand-surface: #f9f9f9;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-brand-bg);
+    color: var(--color-brand-text);
+    line-height: 1.6;
+    font-size: 18px;
+    /* Matches OceanWP base size */
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-brand-text);
+}
+
+.font-hero {
+    font-family: var(--font-hero) !important;
+}
+
+.btn-primary {
+    background-color: var(--color-brand-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+
+a {
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--color-brand-primary);
+}

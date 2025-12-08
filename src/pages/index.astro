@@ -1,16 +1,28 @@
 ---
-
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import Reviews from "../components/Reviews.astro";
+import Author from "../components/Author.astro";
+import BookDetails from "../components/BookDetails.astro";
+import Newsletter from "../components/Newsletter.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Marco Swift and the Mirror of Souls | D. E. Cunningham">
+	<Hero />
+
+	<div class="relative z-20">
+		<Reviews />
+	</div>
+
+	<div class="relative z-30">
+		<Author />
+	</div>
+
+	<div class="relative z-40">
+		<BookDetails />
+	</div>
+
+	<div class="relative z-50">
+		<Newsletter />
+	</div>
+</Layout>

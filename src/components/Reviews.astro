@@ -1,0 +1,71 @@
+---
+const reviews = [
+    {
+        text: "Along the way, Marco meets several new, well-developed characters on a journey that features polished, believable, and immersive worldbuilding. Marco is a relatable and lovable character who comes across as honest, with heartfelt motivations.",
+        author: "Kirkus Reviews",
+        highlight: true,
+    },
+    {
+        text: "This book is a wonderful blend of action, adventure, excitement, and redemption…a beautiful glimpse into the human soul and the struggle to forgive and find love through the darkness of life's struggles!",
+        author: "Masa Radanic",
+        source: "The International Review of Books, Gold Badge",
+    },
+    {
+        text: "Marco Swift is luminous and captivating. Packed with adventure and lots of heart, readers will love this story!",
+        author: "Jennifer Rees",
+        source: "New York Times and Wall Street Journal best-selling editor",
+    },
+    {
+        text: "The author creates a puzzling world of uncertainty that pits good versus evil…The book is recommended for lovers of fantasy worlds, mystery, and family. Give it a shot!",
+        author: "Mark Buxton",
+        source: "YA and Kids! Books Central",
+    },
+    {
+        text: "This was such a magical, thrilling adventure!",
+        author: "Belle's Middle Grade Library",
+    },
+    {
+        text: "If you haven't read this book yet, let me tell you, it's awesome!",
+        author: "Jessica Renwick",
+        source: "Author of the Starfell series",
+    },
+];
+---
+
+<section class="py-20 bg-brand-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {
+                reviews.map((review) => (
+                    <div class="bg-white p-8 border border-gray-100 shadow-sm rounded-sm flex flex-col h-full text-center items-center">
+                        <p class="text-brand-text text-lg italic mb-6 leading-relaxed font-body">
+                            "{review.text}"
+                        </p>
+                        <div class="w-12 h-px bg-brand-primary/50 mb-4 mt-auto" />
+                        <div class="flex flex-col">
+                            <span class="font-bold text-brand-text font-display text-lg">
+                                {review.author}
+                            </span>
+                            {review.source && (
+                                <span class="text-sm text-brand-muted mt-1">
+                                    {review.source}
+                                </span>
+                            )}
+                        </div>
+                        <div class="text-brand-muted/20 text-4xl mt-4">
+                            <svg
+                                width="32"
+                                height="32"
+                                viewBox="0 0 32 32"
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="fill-current"
+                            >
+                                <path d="M10 8c-3.3 0-6 2.7-6 6v10h10V14H6c0-2.2 1.8-4 4-4V8zm16 0c-3.3 0-6 2.7-6 6v10h10V14h-8c0-2.2 1.8-4 4-4V8z" />
+                            </svg>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

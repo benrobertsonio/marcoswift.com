@@ -1,0 +1,99 @@
+---
+const links = [
+    { name: "Home", href: "/" },
+    { name: "Author", href: "/#author" },
+    { name: "Book", href: "/book" },
+    { name: "Blog", href: "/#blog" },
+    { name: "Subscribe", href: "/#subscribe" },
+    { name: "Contact", href: "/#contact" },
+];
+---
+
+<!-- 
+  Original Styles Reference:
+  - Header Background: #f89b52 (Orange) - from inline style in archived HTML: #site-header { background-color: #f89b52 }
+  - Menu Link Color: #000000 (Black) - #site-navigation-wrap .dropdown-menu >li >a { color: #000000 }
+  - Menu Link Hover: #ffffff (White) - #site-navigation-wrap .dropdown-menu >li >a:hover { color: #ffffff }
+-->
+<header
+    class="bg-brand-primary border-b border-white/10 relative z-50 h-[100px] flex items-center shadow-md"
+>
+    <div
+        class="max-w-[1200px] mx-auto px-4 w-full flex items-center justify-between"
+    >
+        <!-- Logo Left -->
+        <div class="flex-shrink-0">
+            <a href="/" class="block">
+                <img
+                    src="/logo.png"
+                    alt="D. E. Cunningham"
+                    class="h-[84px] w-auto object-contain"
+                />
+            </a>
+        </div>
+
+        <!-- Navigation Right -->
+        <div class="flex items-center">
+            <nav class="hidden md:flex space-x-8 items-center">
+                {
+                    links.map((link) => (
+                        <a
+                            href={link.href}
+                            class={`text-[18px] font-medium font-body text-black hover:text-white transition-colors ${link.name === "Home" ? "text-white" : ""}`}
+                        >
+                            {link.name}
+                        </a>
+                    ))
+                }
+            </nav>
+
+            <!-- Search Icon -->
+            <div
+                class="ml-6 hidden md:block pl-6 h-6 flex items-center border-l border-black/10"
+            >
+                <a
+                    href="#"
+                    class="text-black hover:text-white transition-colors"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                        ></path>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden ml-4">
+                <button
+                    type="button"
+                    class="text-black hover:text-white p-2 transition-colors"
+                >
+                    <span class="sr-only">Open menu</span>
+                    <svg
+                        class="h-8 w-8"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
