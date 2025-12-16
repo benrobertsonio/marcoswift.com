@@ -10,8 +10,9 @@
     --color-brand-text: #000000;
     --color-brand-muted: #818a91;
     /* From OceanWP social icons */
-    --color-brand-bg: #ffffff;
-    --color-brand-surface: #f9f9f9;
+    --color-brand-bg: #FDF8EE;
+    /* Warm cream - matches hero */
+    --color-brand-surface: #FAF5E8;
 }
 
 body {
@@ -21,6 +22,19 @@ body {
     line-height: 1.6;
     font-size: 18px;
     /* Matches OceanWP base size */
+    position: relative;
+}
+
+/* Subtle global noise texture */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: #8C8C8C;
+    filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
 }
 
 h1,

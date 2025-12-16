@@ -32,12 +32,12 @@ const reviews = [
 ];
 ---
 
-<section class="py-20 bg-brand-bg">
+<section class="py-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {
                 reviews.map((review) => (
-                    <div class="bg-white p-8 border border-gray-100 shadow-sm rounded-sm flex flex-col h-full text-center items-center">
+                    <div class="bg-white/70 backdrop-blur-sm p-8 border border-brand-primary/10 shadow-sm rounded-sm flex flex-col h-full text-center items-center">
                         <p class="text-brand-text text-lg italic mb-6 leading-relaxed font-body">
                             "{review.text}"
                         </p>

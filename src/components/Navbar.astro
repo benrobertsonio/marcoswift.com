@@ -7,12 +7,6 @@ const links = [
 ];
 ---
 
-<!-- 
-  Original Styles Reference:
-  - Header Background: #f89b52 (Orange) - from inline style in archived HTML: #site-header { background-color: #f89b52 }
-  - Menu Link Color: #000000 (Black) - #site-navigation-wrap .dropdown-menu >li >a { color: #000000 }
-  - Menu Link Hover: #ffffff (White) - #site-navigation-wrap .dropdown-menu >li >a:hover { color: #ffffff }
--->
 <header
     class="bg-brand-primary border-b border-white/10 relative z-50 h-[100px] flex items-center shadow-md"
 >
@@ -48,11 +42,16 @@ const links = [
             <!-- Mobile Menu Button -->
             <div class="md:hidden ml-4">
                 <button
+                    id="mobile-menu-btn"
                     type="button"
                     class="text-black hover:!text-white p-2 transition-colors"
+                    aria-expanded="false"
+                    aria-controls="mobile-menu"
                 >
                     <span class="sr-only">Open menu</span>
+                    <!-- Hamburger icon -->
                     <svg
+                        id="menu-icon-open"
                         class="h-8 w-8"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -65,8 +64,69 @@ const links = [
                             stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
+                    <!-- Close icon (hidden by default) -->
+                    <svg
+                        id="menu-icon-close"
+                        class="h-8 w-8 hidden"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
                 </button>
             </div>
         </div>
     </div>
+
+    <!-- Mobile Menu Panel -->
+    <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute top-full left-0 right-0 bg-brand-primary border-t border-black/10 shadow-lg"
+    >
+        <nav class="flex flex-col py-4">
+            {
+                links.map((link) => (
+                    <a
+                        href={link.href}
+                        class="px-6 py-3 text-[18px] font-medium font-body text-black hover:!text-white hover:bg-black/5 transition-colors"
+                    >
+                        {link.name}
+                    </a>
+                ))
+            }
+        </nav>
+    </div>
 </header>
+
+<script>
+    const menuBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const iconOpen = document.getElementById("menu-icon-open");
+    const iconClose = document.getElementById("menu-icon-close");
+
+    menuBtn?.addEventListener("click", () => {
+        const isOpen = mobileMenu?.classList.contains("hidden");
+
+        mobileMenu?.classList.toggle("hidden");
+        iconOpen?.classList.toggle("hidden");
+        iconClose?.classList.toggle("hidden");
+
+        menuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    // Close menu when clicking a link
+    mobileMenu?.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+            iconOpen?.classList.remove("hidden");
+            iconClose?.classList.add("hidden");
+            menuBtn?.setAttribute("aria-expanded", "false");
+        });
+    });
+</script>

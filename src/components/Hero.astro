@@ -2,12 +2,33 @@
 
 ---
 
+<!-- SVG Noise Filter -->
+<svg class="hidden">
+    <filter id="noiseFilter">
+        <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.7"
+            numOctaves="4"
+            stitchTiles="stitch"></feTurbulence>
+    </filter>
+</svg>
+
 <section
     id="home"
-    class="relative min-h-[85vh] flex items-center justify-center bg-brand-bg py-20"
+    class="hero-section relative min-h-[85vh] flex items-center justify-center py-20"
 >
+    <!-- Noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Animated blobs - positioned to bleed into content below -->
+    <div class="blob-container" aria-hidden="true">
+        <div class="blob blob-orange"></div>
+        <div class="blob blob-gold"></div>
+        <div class="blob blob-purple"></div>
+    </div>
+
     <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-12"
+        class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse md:flex-row items-center gap-12"
     >
         <!-- Text Content -->
         <div class="flex-1 text-center md:text-left space-y-6">
@@ -57,3 +78,135 @@
         </div>
     </div>
 </section>
+
+<style>
+    .noise-overlay {
+        position: absolute;
+        inset: 0;
+        background: #8c8c8c;
+        filter: url(#noiseFilter);
+        opacity: 0.08;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .blob-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: -200px; /* extend below hero */
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .blob {
+        position: absolute;
+        border-radius: 100px;
+        filter: blur(80px);
+        opacity: 0.6;
+    }
+
+    .blob-orange {
+        background-color: #f89b52;
+        width: 300px;
+        height: 300px;
+        top: 10%;
+        right: 15%;
+        animation: blob-orange 10s infinite ease-in-out;
+    }
+
+    .blob-gold {
+        background-color: #edb74d;
+        width: 250px;
+        height: 250px;
+        bottom: -5%;
+        right: 25%;
+        animation: blob-gold 12s infinite ease-in-out;
+    }
+
+    .blob-purple {
+        background-color: #9b7ec2;
+        width: 280px;
+        height: 280px;
+        top: 30%;
+        left: 10%;
+        animation: blob-purple 14s infinite ease-in-out;
+    }
+
+    @keyframes blob-orange {
+        0%,
+        100% {
+            top: 10%;
+            right: 15%;
+            transform: scale(1);
+        }
+        33% {
+            top: 20%;
+            right: 20%;
+            transform: scale(1.1);
+        }
+        66% {
+            top: 5%;
+            right: 10%;
+            transform: scale(0.95);
+        }
+    }
+
+    @keyframes blob-gold {
+        0%,
+        100% {
+            bottom: -5%;
+            right: 25%;
+            transform: scale(1);
+        }
+        33% {
+            bottom: -10%;
+            right: 30%;
+            transform: scale(1.15);
+        }
+        66% {
+            bottom: 0%;
+            right: 20%;
+            transform: scale(0.9);
+        }
+    }
+
+    @keyframes blob-purple {
+        0%,
+        100% {
+            top: 30%;
+            left: 10%;
+            transform: scale(1);
+        }
+        33% {
+            top: 40%;
+            left: 5%;
+            transform: scale(1.2);
+        }
+        66% {
+            top: 25%;
+            left: 15%;
+            transform: scale(0.85);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .blob {
+            filter: blur(60px);
+            opacity: 0.5;
+        }
+        .blob-orange {
+            width: 200px;
+            height: 200px;
+        }
+        .blob-gold {
+            width: 180px;
+            height: 180px;
+        }
+        .blob-purple {
+            width: 200px;
+            height: 200px;
+        }
+    }
+</style>
