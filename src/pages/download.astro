@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export const prerender = true;
+
+const dropboxUrl = 'https://www.dropbox.com/scl/fo/k0fpdwqlnht71cukk7bmd/AOKflo5sXTIa-FVkTVc94Ks?rlkey=ogorhzx2k0wdig5kglhnh3e23&st=t5dp7qa2&dl=0';
+---
+
+<Layout title="Download Your Free Prologue | Marco Swift">
+    <main class="min-h-screen bg-brand-bg flex items-center justify-center py-24 px-4">
+        <div class="max-w-2xl mx-auto text-center">
+            <div class="mb-8">
+                <svg class="w-20 h-20 mx-auto text-brand-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 font-display text-brand-text">
+                You're In!
+            </h1>
+
+            <p class="text-xl text-brand-text/80 mb-10 font-body leading-relaxed">
+                Thank you for subscribing. Your free prologue is ready—available in audiobook, ePub, and PDF formats.
+            </p>
+
+            <a
+                href={dropboxUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-3 px-10 py-4 bg-brand-primary text-white hover:!text-white font-bold rounded hover:bg-brand-primary/90 transition-colors uppercase tracking-wider text-sm shadow-md"
+            >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Download Prologue
+            </a>
+
+            <p class="mt-8 text-brand-text/60 text-sm">
+                <a href="/" class="hover:text-brand-primary transition-colors">← Back to home</a>
+            </p>
+        </div>
+    </main>
+</Layout>
+

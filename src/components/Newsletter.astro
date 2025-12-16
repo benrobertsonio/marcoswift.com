@@ -2,32 +2,102 @@
 
 ---
 
-<section id="subscribe" class="py-24 bg-brand-bg border-t border-gray-100">
+<section id="prologue" class="py-24 bg-brand-bg border-t border-gray-100">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2
             class="text-3xl md:text-5xl font-bold mb-6 font-display text-brand-text"
         >
-            Join my monthly email!
+            Get the Free Prologue
         </h2>
 
-        <p class="text-xl text-brand-text/90 mb-10 font-body leading-relaxed">
-            Receive exclusive bonus content by subscribing to my monthly mailing
-            list.
-            <a
-                href="#contact"
-                class="text-brand-primary font-bold hover:text-brand-primary/80"
-                >Get in touch</a
-            >
-            to ask your questions or send a message!
+        <p
+            class="text-xl text-brand-text/80 mb-10 font-body leading-relaxed max-w-2xl mx-auto"
+        >
+            Enter your email to receive the prologue as an audiobook, ePub, or
+            PDF—your choice.
         </p>
 
-        <div class="flex justify-center">
-            <a
-                href="#subscribe"
-                class="px-10 py-4 bg-brand-primary text-white hover:!text-white font-bold rounded hover:bg-brand-primary/90 transition-colors uppercase tracking-wider text-sm shadow-md"
+        <form id="subscribe-form" class="max-w-md mx-auto">
+            <div class="flex flex-col sm:flex-row gap-3">
+                <input
+                    type="email"
+                    name="email"
+                    required
+                    placeholder="Enter your email"
+                    class="flex-1 px-4 py-3 rounded border border-gray-300 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors font-body"
+                />
+                <button
+                    type="submit"
+                    class="px-8 py-3 bg-brand-primary text-white font-bold rounded hover:bg-brand-primary/90 transition-colors uppercase tracking-wider text-sm shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    <span class="btn-text">Get It Free</span>
+                    <span class="btn-loading hidden">Sending...</span>
+                </button>
+            </div>
+
+            <!-- honeypot - hidden from humans, visible to bots -->
+            <input
+                type="text"
+                name="website"
+                class="absolute -left-[9999px] opacity-0 pointer-events-none"
+                tabindex="-1"
+                autocomplete="off"
+            />
+
+            <p id="form-error" class="mt-3 text-red-600 text-sm hidden"></p>
+        </form>
+
+        <p class="mt-8 text-brand-text/60 text-sm">
+            Questions? <a
+                href="mailto:de.cunningham@gmail.com"
+                class="text-brand-primary hover:text-brand-primary/80"
+                >Contact the author</a
             >
-                Subscribe Now!!!
-            </a>
-        </div>
+        </p>
     </div>
 </section>
+
+<script>
+    const form = document.getElementById("subscribe-form") as HTMLFormElement;
+    const errorEl = document.getElementById(
+        "form-error",
+    ) as HTMLParagraphElement;
+    const btnText = form.querySelector(".btn-text") as HTMLSpanElement;
+    const btnLoading = form.querySelector(".btn-loading") as HTMLSpanElement;
+    const submitBtn = form.querySelector(
+        'button[type="submit"]',
+    ) as HTMLButtonElement;
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        errorEl.classList.add("hidden");
+        btnText.classList.add("hidden");
+        btnLoading.classList.remove("hidden");
+        submitBtn.disabled = true;
+
+        try {
+            const formData = new FormData(form);
+            const response = await fetch("/api/subscribe", {
+                method: "POST",
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Something went wrong");
+            }
+
+            if (data.redirect) {
+                window.location.href = data.redirect;
+            }
+        } catch (err) {
+            errorEl.textContent =
+                err instanceof Error ? err.message : "Something went wrong";
+            errorEl.classList.remove("hidden");
+            btnText.classList.remove("hidden");
+            btnLoading.classList.add("hidden");
+            submitBtn.disabled = false;
+        }
+    });
+</script>

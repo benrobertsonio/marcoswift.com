@@ -4,7 +4,10 @@ import Hero from "../components/Hero.astro";
 import Reviews from "../components/Reviews.astro";
 import Author from "../components/Author.astro";
 import BookDetails from "../components/BookDetails.astro";
+import Contact from "../components/Contact.astro";
 import Newsletter from "../components/Newsletter.astro";
+
+export const prerender = true;
 ---
 
 <Layout
@@ -27,6 +30,10 @@ import Newsletter from "../components/Newsletter.astro";
 	</div>
 
 	<div class="relative z-50">
+		<Contact />
+	</div>
+
+	<div class="relative z-60">
 		<Newsletter />
 	</div>
 </Layout>
