@@ -1,0 +1,73 @@
+name: Dependabot auto-merge
+
+on: pull_request_target
+
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+  statuses: read
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Skip if not patch or minor
+        id: gate
+        run: |
+          if [ "${{ steps.meta.outputs.directory }}" = "/" ] && \
+             { [ "${{ steps.meta.outputs.update-type }}" = "version-update:semver-patch" ] || \
+               [ "${{ steps.meta.outputs.update-type }}" = "version-update:semver-minor" ]; }; then
+            echo "eligible=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "eligible=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping: directory=${{ steps.meta.outputs.directory }} update-type=${{ steps.meta.outputs.update-type }}"
+          fi
+
+      - name: Wait for Netlify deploy preview
+        if: steps.gate.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          REPO: ${{ github.repository }}
+        run: |
+          for attempt in $(seq 1 60); do
+            CHECK_STATE=$(gh api "repos/$REPO/commits/$SHA/check-runs" \
+              --jq '[.check_runs[] | select(.name | test("netlify"; "i"))] | .[0].conclusion // empty')
+
+            STATUS_STATE=$(gh api "repos/$REPO/commits/$SHA/statuses" \
+              --jq '[.[] | select(.context | test("netlify"; "i"))] | .[0].state // empty')
+
+            STATE="${CHECK_STATE:-$STATUS_STATE}"
+
+            case "$STATE" in
+              success)
+                echo "Netlify preview succeeded."
+                exit 0
+                ;;
+              failure|cancelled|timed_out|error)
+                echo "Netlify preview failed with state: $STATE"
+                exit 1
+                ;;
+              *)
+                echo "Waiting for Netlify preview (state='$STATE', attempt $attempt/60)..."
+                sleep 30
+                ;;
+            esac
+          done
+          echo "Timed out waiting for Netlify preview after 30 minutes."
+          exit 1
+
+      - name: Squash merge
+        if: steps.gate.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --squash --delete-branch "$PR_URL"
